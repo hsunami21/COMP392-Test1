@@ -46,9 +46,11 @@ var game = (() => {
     var axes: AxisHelper;
     var plane: Mesh;
     var ambientLight: AmbientLight;
+    var pointLight: PointLight;
     var spotLight: SpotLight;
     var cubes: gameObject[];
     var tower: THREE.Object3D;
+    var skybox: gameObject;
     
     function init() {
         // Instantiate a new Scene object
@@ -68,7 +70,7 @@ var game = (() => {
         //Add a Plane to the Scene
         plane = new gameObject(
             new PlaneGeometry(60, 40, 1, 1),
-            new LambertMaterial({ color: 0x9e9e9e}),
+            new LambertMaterial({ map: THREE.ImageUtils.loadTexture('../../Assets/Images/grass.jpg') }),
             0, 0, 0);
 
         plane.rotation.x = -0.5 * Math.PI;
@@ -81,44 +83,63 @@ var game = (() => {
         scene.add(ambientLight);
         console.log("Added an Ambient Light to Scene");
         
+        // Add a PointLight to the scene
+        pointLight = new PointLight(0xffffff, 1, 5000);
+        pointLight.position.set(0, 50, 0);
+        
+        scene.add(pointLight);
+        
         // Add a SpotLight to the scene
         spotLight = new SpotLight(0xffffff);
-        spotLight.position.set(-40, 120, -40);
+        spotLight.position.set(-40, 80, 10);
         spotLight.castShadow = true;
+        spotLight.shadowMapWidth = 2048;
+        spotLight.shadowMapHeight = 2048;
         scene.add(spotLight);
         console.log("Added a SpotLight Light to Scene");
     
+        skybox = new gameObject(
+            new THREE.SphereGeometry(45, 32, 32),
+            new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('../../Assets/Images/skybox.jpeg'), side: THREE.BackSide}),
+            0, 0, 0
+        );
+
+        
+        skybox.castShadow = false;
+        scene.add(skybox);
+        console.log("Added a Skybox to Scene");
+                
         // create a new array of cubes and populate it
         cubes = new Array<gameObject>();
         tower = new THREE.Object3D();
         
         cubes.push(new gameObject(
             new THREE.CubeGeometry(6, 6, 6),
-            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0)}),
+            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0), map: THREE.ImageUtils.loadTexture('../../Assets/Images/stone.jpg')}),
             0, 3, 0
         ));
         
         cubes.push(new gameObject(
             new THREE.CubeGeometry(5, 5, 5),
-            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0)}),
+            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0), map: THREE.ImageUtils.loadTexture('../../Assets/Images/stone.jpg')}),
             0, 8.5, 0
         ));
         
         cubes.push(new gameObject(
             new THREE.CubeGeometry(4, 4, 4),
-            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0)}),
+            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0), map: THREE.ImageUtils.loadTexture('../../Assets/Images/stone.jpg')}),
             0, 13, 0
         ));
         
         cubes.push(new gameObject(
             new THREE.CubeGeometry(3, 3, 3),
-            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0)}),
+            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0), map: THREE.ImageUtils.loadTexture('../../Assets/Images/stone.jpg')}),
             0, 16.5, 0
         ));
         
         cubes.push(new gameObject(
             new THREE.CubeGeometry(2, 2, 2),
-            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0)}),
+            new THREE.MeshLambertMaterial({color: (Math.random() * 0xFFFFFF << 0), map: THREE.ImageUtils.loadTexture('../../Assets/Images/stone.jpg')}),
             0, 19, 0
         ));
         
@@ -170,6 +191,9 @@ var game = (() => {
     function gameLoop(): void {
         stats.update();
 
+        skybox.rotation.y += 0.005;
+        skybox.rotation.x += 0.005;
+        
         // change rotation of each cube individually
         cubes[0].rotation.y += control.cube1RotY;
         cubes[1].rotation.y += control.cube2RotY;
