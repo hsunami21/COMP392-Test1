@@ -127,7 +127,6 @@ var game = (function () {
     function gameLoop() {
         stats.update();
         skybox.rotation.y += 0.005;
-        skybox.rotation.x += 0.005;
         // change rotation of each cube individually
         cubes[0].rotation.y += control.cube1RotY;
         cubes[1].rotation.y += control.cube2RotY;
@@ -172,5 +171,4 @@ var game = (function () {
         scene: scene
     };
 })();
-
 //# sourceMappingURL=game.js.map

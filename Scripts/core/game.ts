@@ -192,7 +192,6 @@ var game = (() => {
         stats.update();
 
         skybox.rotation.y += 0.005;
-        skybox.rotation.x += 0.005;
         
         // change rotation of each cube individually
         cubes[0].rotation.y += control.cube1RotY;

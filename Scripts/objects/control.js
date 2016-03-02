@@ -19,8 +19,7 @@ var objects;
             ;
         };
         return Control;
-    }());
+    })();
     objects.Control = Control;
 })(objects || (objects = {}));
-
 //# sourceMappingURL=control.js.map
