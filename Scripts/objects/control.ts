@@ -1,5 +1,14 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
+/*
+    Source name: COMP392-MidTerm
+    Author: Wendall Hsu 300739743
+    Last Modified By: Wendall Hsu
+    Date Last Modified: March 2, 2016
+    Program Description: Creation of a tower for COMP392-MidTerm using THREEJS and TypeScript
+
+*/
+
 module objects {
     // CONTROL CLASS ++++++++++++++++++++++++++++++++++++++++++
     export class Control { 
